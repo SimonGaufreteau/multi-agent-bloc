@@ -28,34 +28,25 @@ public class Environnement {
             liste_agents.add(new Agent(blocs.get(i),blocs.get(i-1), this,null));
         }
 
+        // Melange des agents
         ArrayList<Agent> agents_shuffle = (ArrayList<Agent>)liste_agents.clone();
         Collections.shuffle(agents_shuffle);
 
-
+        // Placement des agents
         for(int i=0;i<nb_agents;i++){
             int index = stacked?random.nextInt(nb_list):0;
-
             Stack<Agent> pile = pile_list.get(index);
             Agent agent = agents_shuffle.get(i);
-            agent.setPile(pile);
-
-            try{
-                Agent sup_pile = pile.peek();
-                sup_pile.setSuperieur(agent);
-                agent.setInferieur(sup_pile);
-            }catch (EmptyStackException e){
-                agent.setInferieur(getTableAgent());
-            }
-            pile_list.get(index).push(agent);
+            pile.push(agent);
         }
     }
 
-    public Stack<Agent> getPileDifferente(Stack<Agent> pile_actuelle) {
+    public Stack<Agent> getPileDifferente(Agent agent) {
         Random random = new Random();
         Stack<Agent> pile;
         do{
             pile = pile_list.get(random.nextInt(pile_list.size()));
-        }while(pile.equals(pile_actuelle));
+        }while(pile.contains(agent));
         return pile;
     }
 
@@ -84,9 +75,7 @@ public class Environnement {
                     builder.append(" ").append(agent.getBloc()).append(" |");
                 }
             }
-            for(int j = i;j<nb_agents;j++){
-                builder.append("   |");
-            }
+            builder.append("   |".repeat(Math.max(0, nb_agents - i)));
             builder.append("\n");
 
         }
@@ -100,5 +89,63 @@ public class Environnement {
 
     public Bloc getTableBloc(){
         return null;
+    }
+
+    public Agent getInferieurActuel(Agent agent) throws Exception {
+        Object[] list = getAgentStackAsList(agent);
+        for(int i=0;i<list.length;i++){
+            if(list[i].equals(agent)){
+                return i==0?null:(Agent)list[i-1];
+            }
+        }
+        return null;
+    }
+
+    public Agent getSuperieurActuel(Agent agent) throws Exception {
+        Object[] list = getAgentStackAsList(agent);
+        for(int i=0;i<list.length;i++){
+            if(list[i].equals(agent)){
+                return (i==list.length-1)?null:(Agent)list[i+1];
+            }
+        }
+        return null;
+    }
+
+    public Object[] getAgentStackAsList(Agent agent) throws Exception {
+        for(Stack<Agent> stack : pile_list){
+            Object[] list = stack.toArray();
+            for(Object o : list){
+                if(o instanceof Agent && o.equals(agent)){
+                    return list;
+                }
+            }
+        }
+        throw new Exception("Agent not found in stacks");
+    }
+
+    public Stack<Agent> getAgentStack(Agent agent) throws Exception {
+        for(Stack<Agent> stack : pile_list){
+            Object[] list = stack.toArray();
+            for(Object o : list){
+                if(o instanceof Agent && o.equals(agent)){
+                    return stack;
+                }
+            }
+        }
+        throw new Exception("Agent not found in stacks");
+    }
+
+
+    public void pousserSuperieur(Agent agent) throws Exception {
+        Agent sup = getSuperieurActuel(agent);
+        sup.setEstPousse(true);
+    }
+
+    public void deplacerAgent(Agent agent) throws Exception {
+        Stack<Agent> stack_actuelle = getAgentStack(agent);
+        stack_actuelle.pop();
+        Stack<Agent> stack_dest = getPileDifferente(agent);
+        stack_dest.push(agent);
+
     }
 }

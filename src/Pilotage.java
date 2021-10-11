@@ -10,7 +10,7 @@ public class Pilotage {
         this.environnement = environnement;
     }
 
-    public int run(boolean printRes){
+    public int run(boolean printRes) throws Exception {
         int i = 0;
         while(i<MAX_ITER && !isFinished()){
             Agent agent = environnement.getRandomAgent();

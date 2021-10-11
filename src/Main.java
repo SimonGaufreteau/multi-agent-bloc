@@ -2,7 +2,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Main {
-    public static void main(String[] args) {
+
+    private static boolean PRINT_RES = false;
+
+    public static void main(String[] args) throws Exception {
 
         //Environnement environnement = new Environnement(3,4,false);
         //Pilotage pilotage = new Pilotage(environnement);
@@ -15,7 +18,7 @@ public class Main {
         for(int i=0;i<nb_iter;i++){
             Environnement environnement = new Environnement(3,4,false);
             Pilotage pilotage = new Pilotage(environnement);
-            int res = pilotage.run(false);
+            int res = pilotage.run(PRINT_RES);
             if(res ==-1){
                 failed++;
             }

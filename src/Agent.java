@@ -9,7 +9,7 @@ public class Agent {
     private boolean est_pousse;
 
     private Environnement environnement;
-    private Stack<Agent> pile_actuelle;
+
 
     public Agent(Bloc bloc,Bloc inferieur_cible, Environnement environnement,Stack<Agent> pile_actuelle) {
         this.bloc = bloc;
@@ -18,50 +18,29 @@ public class Agent {
         this.agent_superieur_actuel = null;
         this.est_pousse = false;
         this.environnement = environnement;
-        this.pile_actuelle = pile_actuelle;
-
     }
 
-    public void realiserAction(){
-        Stack<Agent> pile_cible = environnement.getPileDifferente(pile_actuelle);
-        if(est_pousse){
-            if(agent_superieur_actuel == null)
-                seDeplacer(pile_cible);
-            else
-                pousser();
-        }
-        else if (!positionOk()) {
-            if (agent_superieur_actuel == null) {
-                seDeplacer(pile_cible);
-            } else {
-                pousser();
+    public void realiserAction() throws Exception {
+        agent_inferieur_actuel = environnement.getInferieurActuel(this);
+        agent_superieur_actuel = environnement.getSuperieurActuel(this);
+        if(est_pousse || !positionOk()){
+            if(agent_superieur_actuel == null){
+                seDeplacer();
             }
+            else pousser();
         }
     }
 
-    public void seDeplacer(Stack<Agent> stack){
-        if(agent_superieur_actuel==null){
-            //System.out.println("Deplacement de "+bloc.getNom());
-            pile_actuelle.pop();
-            if(agent_inferieur_actuel!=null)
-                agent_inferieur_actuel.setSuperieur(null);
-            try {
-                agent_inferieur_actuel = stack.peek();
-                agent_inferieur_actuel.setSuperieur(this);
+    public void seDeplacer() throws Exception {
+            environnement.deplacerAgent(this);
 
-            }catch (Exception e){
-                agent_inferieur_actuel = environnement.getTableAgent();
-            }
-            stack.push(this);
-            pile_actuelle = stack;
-        }
     }
 
-    public void pousser(){
-        agent_superieur_actuel.setEstPousse(true);
+    public void pousser() throws Exception {
+        environnement.pousserSuperieur(this);
     }
 
-    private void setEstPousse(boolean b) {
+    public void setEstPousse(boolean b) {
         est_pousse = b;
     }
 
@@ -74,17 +53,5 @@ public class Agent {
 
     public Bloc getBloc() {
         return bloc;
-    }
-
-    public void setSuperieur(Agent agent) {
-        this.agent_superieur_actuel = agent;
-    }
-
-    public void setInferieur(Agent sup_pile) {
-        this.agent_inferieur_actuel = sup_pile;
-    }
-
-    public void setPile(Stack<Agent> pile) {
-        this.pile_actuelle = pile;
     }
 }
