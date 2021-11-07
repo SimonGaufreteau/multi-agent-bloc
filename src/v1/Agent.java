@@ -1,14 +1,16 @@
+package v1;
+
 import java.util.Stack;
 
 public class Agent {
-    private Bloc bloc;
-    private Bloc bloc_inferieur_cible;
+    protected Bloc bloc;
+    protected Bloc bloc_inferieur_cible;
 
-    private Agent agent_inferieur_actuel;
-    private Agent agent_superieur_actuel;
-    private boolean est_pousse;
+    protected Agent agent_inferieur_actuel;
+    protected Agent agent_superieur_actuel;
+    protected boolean est_pousse;
 
-    private Environnement environnement;
+    protected Environnement environnement;
 
 
     public Agent(Bloc bloc,Bloc inferieur_cible, Environnement environnement,Stack<Agent> pile_actuelle) {
@@ -44,7 +46,7 @@ public class Agent {
         est_pousse = b;
     }
 
-    private boolean positionOk(){
+    protected boolean positionOk(){
         if(agent_inferieur_actuel==environnement.getTableAgent()){
          return bloc_inferieur_cible==environnement.getTableBloc();
         }

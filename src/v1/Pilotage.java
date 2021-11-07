@@ -1,10 +1,13 @@
+package v1;
+
+import v2.EnvironnementIntel;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Stack;
 
 public class Pilotage {
     Environnement environnement;
-    public static int MAX_ITER = 2000;
+    public static int MAX_ITER = 5000;
 
     public Pilotage(Environnement environnement) {
         this.environnement = environnement;
@@ -16,7 +19,7 @@ public class Pilotage {
             Agent agent = environnement.getRandomAgent();
             if(printRes){
                 System.out.println("Etape : "+i);
-                System.out.println("Agent sélectionné : "+agent.getBloc());
+                System.out.println("v1.Agent sélectionné : "+agent.getBloc());
             }
             agent.realiserAction();
             if(printRes){
@@ -28,6 +31,8 @@ public class Pilotage {
         if(i == MAX_ITER) return -1;
         return i;
     }
+
+
 
     public boolean isFinished(){
         ArrayList<Stack<Agent>> stack_list = environnement.getPile_list();
@@ -45,4 +50,6 @@ public class Pilotage {
         }
         return false;
     }
+
+
 }

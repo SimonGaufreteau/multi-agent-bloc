@@ -1,4 +1,4 @@
-import java.util.Objects;
+package v1;
 
 public class Bloc {
     private String nom;

@@ -1,11 +1,12 @@
-import java.lang.reflect.Array;
+package v1;
+
 import java.util.*;
 
 public class Environnement {
-    private ArrayList<Stack<Agent>> pile_list;
-    private final ArrayList<Bloc> position_finale;
-    private int nb_agents;
-    private ArrayList<Agent> liste_agents;
+    protected ArrayList<Stack<Agent>> pile_list;
+    protected final ArrayList<Bloc> position_finale;
+    protected int nb_agents;
+    protected ArrayList<Agent> liste_agents;
 
     public Environnement(int nb_list, int nb_agents, boolean stacked) {
         this.pile_list = new ArrayList<>();
@@ -120,7 +121,7 @@ public class Environnement {
                 }
             }
         }
-        throw new Exception("Agent not found in stacks");
+        throw new Exception("v1.Agent not found in stacks");
     }
 
     public Stack<Agent> getAgentStack(Agent agent) throws Exception {
@@ -132,7 +133,7 @@ public class Environnement {
                 }
             }
         }
-        throw new Exception("Agent not found in stacks");
+        throw new Exception("v1.Agent not found in stacks");
     }
 
 
