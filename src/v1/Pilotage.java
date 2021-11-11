@@ -7,7 +7,7 @@ import java.util.Stack;
 
 public class Pilotage {
     Environnement environnement;
-    public static int MAX_ITER = 5000;
+    public static int MAX_ITER = 10000;
 
     public Pilotage(Environnement environnement) {
         this.environnement = environnement;

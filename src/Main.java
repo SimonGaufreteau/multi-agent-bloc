@@ -8,10 +8,10 @@ import java.util.ArrayList;
 public class Main {
 
     private static boolean PRINT_RES = false;
-    private static int VERSION = 2;
+    private static int VERSION = 1;
 
     public static void main(String[] args) throws Exception {
-        int nb_iter = 100000;
+        int nb_iter = 10000;
         long total = 0;
         int count_ok = 0;
         int failed = 0;
@@ -49,7 +49,7 @@ public class Main {
         }
 
         //System.out.println(arrayList);
-        System.out.println("Failed : "+failed+" / Ok : "+ count_ok +" (mean : "+(float)total/nb_iter + ")");
+        System.out.println("Failed : "+failed+" / Ok : "+ count_ok +" -> "+100*count_ok/(float)nb_iter+"% (mean : "+(float)total/nb_iter + ")");
 
     }
 }
