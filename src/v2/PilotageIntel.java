@@ -26,6 +26,7 @@ public class PilotageIntel {
                 System.out.println(environnement);
                 System.out.println("\n");
             }
+            Thread.sleep(500);
             i++;
         }
         if(i == MAX_ITER) return -1;

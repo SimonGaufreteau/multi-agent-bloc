@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 public class Main {
 
-    private static boolean PRINT_RES = false;
-    private static int VERSION = 1;
+    private static boolean PRINT_RES = true;
+    private static int VERSION = 2;
 
     public static void main(String[] args) throws Exception {
-        int nb_iter = 10000;
+        int nb_iter = 1;
         long total = 0;
         int count_ok = 0;
         int failed = 0;

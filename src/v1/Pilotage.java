@@ -19,7 +19,7 @@ public class Pilotage {
             Agent agent = environnement.getRandomAgent();
             if(printRes){
                 System.out.println("Etape : "+i);
-                System.out.println("v1.Agent sélectionné : "+agent.getBloc());
+                System.out.println("Agent sélectionné : "+agent.getBloc());
             }
             agent.realiserAction();
             if(printRes){
