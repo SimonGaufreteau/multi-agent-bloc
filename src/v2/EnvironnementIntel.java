@@ -67,42 +67,27 @@ public class EnvironnementIntel {
         }
         ArrayList<AgentIntel> availableAgents = getAvailableAgents();
         for(AgentIntel agent: availableAgents){
-            Object[] agentStackAsList = getAgentStackAsList(agent);
-
+            // On ne déplace pas deux fois le même agent pour éviter les boucles
             if(agent.equals(last_agent)) continue;
 
-            // Sinon on regarde si les blocs en dessous sont sur le bon bloc
-            boolean isPileOk = true;
-            for(Object o : agentStackAsList){
-                if(o instanceof AgentIntel currentAgent && !o.equals(agent)){
-                    isPileOk = isPileOk && currentAgent.positionOk();
-                }
-            }
-
-            // Si l'agent n'est pas sur le bon bloc, on va le déplacer
-            // Si un des blocs en dessous n'est pas sur sa cible, on déplace le bloc du dessus de pile
-
-            if(!agent.positionOk() || !isPileOk) {
+            // On demande à l'agent si son déplacement sera optimal
+            if(agent.tryMove()){
                 last_agent = agent;
                 return agent;
             }
         }
-        //System.out.println(this);
+        // Si aucun agent ne peut se déplacer optimalement, on en choisi un au hasard
         Random random = new Random();
         return availableAgents.get(random.nextInt(availableAgents.size()));
-//        throw new Exception("Erreur lors de la sélection de l'agent. Aucun ne peut être déplacé suivant la stratégie.");
     }
 
     //Renvoie une liste des agents qui peuvent se déplacer
     public ArrayList<AgentIntel> getAvailableAgents() {
         ArrayList<AgentIntel> availableAgents = new ArrayList<>();
+        // On demande à tous les agents directement si ils sont disponibles
         for(AgentIntel a: liste_agents) {
-            try {
-                if(getSuperieurActuel(a) == null) {
-                    availableAgents.add(a);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(a.isAvailable()){
+                availableAgents.add(a);
             }
         }
         return availableAgents;

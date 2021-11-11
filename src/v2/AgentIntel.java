@@ -58,6 +58,22 @@ public class AgentIntel {
         return bloc;
     }
 
+    public boolean isAvailable() {
+        return agent_superieur_actuel == null;
+    }
+
+    public boolean isPileOk() {
+        AgentIntel next = agent_inferieur_actuel;
+        if(next == null) return positionOk();
+        // On demande à chaque agent si la pile est ok via un appel récursif (chaque agent demande à celui
+        // en dessous de lui)
+        return next.positionOk() && next.isPileOk();
+    }
+
+    public boolean tryMove() {
+        return !positionOk() || !isPileOk();
+    }
+
     @Override
     public String toString() {
         return "AgentIntel{" +
