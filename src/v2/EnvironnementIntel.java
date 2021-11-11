@@ -61,8 +61,7 @@ public class EnvironnementIntel {
         for (AgentIntel agentIntel : liste_agents){
             agentIntel.updatePerception();
         }
-        ArrayList<AgentIntel> availableAgents = getAvailableAgents();
-        for(AgentIntel agent: availableAgents){
+        for(AgentIntel agent: liste_agents){
             // On ne déplace pas deux fois le même agent pour éviter les boucles
             if(agent.equals(last_agent)) continue;
 
@@ -72,8 +71,10 @@ public class EnvironnementIntel {
                 return agent;
             }
         }
-        // Si aucun agent ne peut se déplacer optimalement, on en choisi un au hasard
         Random random = new Random();
+        // On demande à un agent aléatoire de nous donner la liste des agents disponibles
+        ArrayList<AgentIntel> availableAgents = liste_agents.get(random.nextInt(liste_agents.size())).availableAgents();
+        // Si aucun agent ne peut se déplacer optimalement, on en choisi un au hasard
         return availableAgents.get(random.nextInt(availableAgents.size()));
     }
 
@@ -158,6 +159,16 @@ public class EnvironnementIntel {
     }
 
     public Stack<AgentIntel> getAgentStack(AgentIntel agent) throws Exception {
+        // Si on cherche une pile vide
+        if(agent==null){
+            for(Stack<AgentIntel> stack : pile_list){
+               if(stack.isEmpty())
+                   return stack;
+            }
+            throw new Exception("Could not find an empty stack as it was asked.");
+        }
+
+        // Si on cherche un agent particulier
         for(Stack<AgentIntel> stack : pile_list){
             Object[] list = stack.toArray();
             for(Object o : list){
@@ -169,40 +180,19 @@ public class EnvironnementIntel {
         throw new Exception("v1.Agent not found in stacks");
     }
 
-    public void deplacerAgent(AgentIntel agent) throws Exception {
-
+    public void deplacerAgent(AgentIntel agent,AgentIntel agentDest) throws Exception {
         Stack<AgentIntel> stack_actuelle = getAgentStack(agent);
-
-        Stack<AgentIntel> stack_dest = getPileDifferente(agent);
-
-        if(agent.bloc_inferieur_cible==null){
-            // On cherche une pile vide pour le 1, si on en trouve une on se déplace dessus
-            Stack<AgentIntel> pile_vide = null;
-            ArrayList<Stack<AgentIntel>> pile_list = getPile_list();
-            for(Stack<AgentIntel> stack : pile_list){
-                if(stack.isEmpty()){
-                    pile_vide = stack;
-                    break;
-                }
-            }
-
-            if(pile_vide != null)  stack_dest = pile_vide;
-        }
-        else{
-            // On regarde si il y a la cible sur une des piles, si oui on se déplace dessus
-            for(AgentIntel currentAgent : getAvailableAgents()) {
-                if (!currentAgent.equals(agent)) {
-                    if (currentAgent.getBloc().equals(agent.bloc_inferieur_cible)) {
-                        stack_dest = getAgentStack(currentAgent);
-                        break;
-                    }
-                }
-            }
-        }
+        Stack<AgentIntel> stack_dest = getAgentStack(agentDest);
 
         stack_actuelle.pop();
         stack_dest.push(agent);
+    }
 
+    public ArrayList<AgentIntel> getListe_agents() {
+        return liste_agents;
+    }
 
+    public int getNbStack() {
+        return pile_list.size();
     }
 }

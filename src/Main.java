@@ -11,7 +11,7 @@ public class Main {
     private static int VERSION = 2;
 
     public static void main(String[] args) throws Exception {
-        int nb_iter = 10000;
+        int nb_iter = 100000;
         long total = 0;
         int count_ok = 0;
         int failed = 0;
