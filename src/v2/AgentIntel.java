@@ -10,7 +10,6 @@ public class AgentIntel {
 
     protected AgentIntel agent_inferieur_actuel;
     protected AgentIntel agent_superieur_actuel;
-    protected boolean est_pousse;
 
     protected EnvironnementIntel environnement;
 
@@ -20,7 +19,6 @@ public class AgentIntel {
         this.bloc_inferieur_cible = inferieur_cible;
         this.agent_inferieur_actuel = null;
         this.agent_superieur_actuel = null;
-        this.est_pousse = false;
         this.environnement = environnement;
     }
 
@@ -36,15 +34,6 @@ public class AgentIntel {
 
     public void seDeplacer() throws Exception {
         environnement.deplacerAgent(this);
-
-    }
-
-    public void pousser() throws Exception {
-        environnement.pousserSuperieur(this);
-    }
-
-    public void setEstPousse(boolean b) {
-        est_pousse = b;
     }
 
     protected boolean positionOk(){

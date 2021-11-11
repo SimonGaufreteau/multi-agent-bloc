@@ -56,10 +56,6 @@ public class EnvironnementIntel {
         return pile;
     }
 
-    public AgentIntel getRandomAgent(){
-        Random random = new Random();
-        return liste_agents.get(random.nextInt(liste_agents.size()));
-    }
 
     public AgentIntel chooseAgent() throws Exception {
         for (AgentIntel agentIntel : liste_agents){
@@ -171,12 +167,6 @@ public class EnvironnementIntel {
             }
         }
         throw new Exception("v1.Agent not found in stacks");
-    }
-
-
-    public void pousserSuperieur(AgentIntel agent) throws Exception {
-        AgentIntel sup = getSuperieurActuel(agent);
-        sup.setEstPousse(true);
     }
 
     public void deplacerAgent(AgentIntel agent) throws Exception {
